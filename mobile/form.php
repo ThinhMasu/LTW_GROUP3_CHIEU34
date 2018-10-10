@@ -1,4 +1,10 @@
-
+<?php 
+session_start();
+require "config.php";
+require "db.php";
+if(!isset($_SESSION['user'])){
+	header("location:login.php");
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +37,7 @@
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -46,7 +52,7 @@
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -91,7 +97,7 @@
 						<div class="widget-content nopadding">
 
 							<!-- BEGIN USER FORM -->
-							<form action="#" method="post" class="form-horizontal" enctype="multipart/form-data">
+							<form action="addcart.php" method="post" class="form-horizontal" enctype="multipart/form-data">
 								<div class="control-group">
 									<label class="control-label">Name :</label>
 									<div class="controls">
@@ -102,11 +108,11 @@
 									<label class="control-label">Choose a product type :</label>
 									<div class="controls">
 										<select name="type_id">
-											<option value="4">Speaker</option>
-											<option value="3">Laptop</option>
-											<option value="2">Tablet</option>
-											<option value="1">Cellphone</option>
-
+											<option value="14">Speaker</option>
+											<option value="13">Laptop</option>
+											<option value="12">Tablet</option>
+											<option value="11">Cellphone</option>
+											<option value="15">Keybroad</option>
 										</select> *
 									</div>
 								</div>
@@ -114,11 +120,11 @@
 									<label class="control-label">Choose a manufacture :</label>
 									<div class="controls">
 										<select name="manu_id">
-											<option value="5">Oppo</option>
-											<option value="4">SamSung</option>
-											<option value="3">Sony</option>
-											<option value="2">Microsoft</option>
-											<option value="1">Apple</option>
+											<option value="7">Oppo</option>
+											<option value="9">SamSung</option>
+											<option value="10">Sony</option>
+											<option value="11">Nokia</option>
+											<option value="8">Apple</option>
 
 										</select> *
 									</div>

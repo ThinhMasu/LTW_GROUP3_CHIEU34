@@ -1,6 +1,10 @@
 <?php 
+session_start();
 require "config.php";
 require "db.php";
+if(!isset($_SESSION['user'])){
+	header("location:login.php");
+}
 $per_page = 5;
 if (isset($_GET['page'])) {
 	$page = $_GET['page'];
@@ -14,9 +18,6 @@ $key1 = $_GET['key'];
 $product1 = $db->search($key1,$page, $per_page);
 $total = $db->count2($key1);
 $url = $_SERVER['PHP_SELF'];
-if(isset($product1)){
-	header("location:https://www.google.com.vn/search?q=t%E1%BB%B1+ki%E1%BA%BFm+%C4%91i+nha&oq=t&aqs=chrome.0.69i59j69i60l3j69i57j0.719j0j7&sourceid=chrome&ie=UTF-8");
-}
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,7 @@ if(isset($product1)){
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -80,7 +81,7 @@ if(isset($product1)){
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 

@@ -48,6 +48,12 @@ class Db{
 		$result = self::$conn->query($sql);
 		return $this->getData($result);
 	}
+	public function search1(){
+		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` ORDER BY `ID` DESC LIMIT 1";
+		$result = self::$conn->query($sql);
+		return $this->getData($result);
+
+	}
 
 	public function count1(){
 		$sql = "SELECT * FROM `products`";
@@ -136,6 +142,34 @@ class Db{
 
 		}
 		return $first_link.$prev_link.$next_link.$last_link;
-	} 
+	}
+
+	public function AddCart($name, $type_ID, $manu_ID, $img, $description, $price)
+	{
+		$sql = "INSERT INTO `products`(`name`, `type_ID`, `manu_ID`, `image`, `description`, `price`) VALUES ('".$name."', '".$type_ID."', '".$manu_ID."', '".$img."', '".$description."', '".$price."')";
+		self::$conn->query($sql);
+	}
+
+	public function checkImg()
+	{
+		$tagetDir = "public/images/";		
+		$tagetFile = $tagetDir.basename($_FILES["fileUpload"]["name"]);	
+		move_uploaded_file($_FILES['fileUpload']['tmp_name'], $tagetFile);	
+		$upLoadOk = 1;
+		$imgFileType = pathinfo($tagetFile, PATHINFO_EXTENSION);
+		if(isset($_POST["submit"]))
+		{
+			$check = getimagesize(($_FILES["fileToUpload"]["tmp_name"]));
+			if($check != false)
+			{
+				echo "File in an image - ".$check["mime"].".";
+				$upLoadOk = 1;
+			}
+			else{
+				echo "File in an image.";
+				$upLoadOk = 0;
+			}
+		}	
+	}
 
 }

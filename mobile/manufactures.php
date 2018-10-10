@@ -1,4 +1,10 @@
-
+<?php 
+session_start();
+require "config.php";
+require "db.php";
+if(!isset($_SESSION['user'])){
+	header("location:login.php");
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +37,7 @@
 				<li class="divider"></li>
 				<li><a href="form.html"><i class="icon-check"></i> My Tasks</a></li>
 				<li class="divider"></li>
-				<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+				<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
 			</ul>
 		</li>
 		<li class="dropdown" id="menu-messages"><a href="form.html" data-toggle="dropdown" data-target="form.htmlmenu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -45,8 +51,8 @@
 				<li><a class="sTrash" title="" href="form.html"><i class="icon-trash"></i> trash</a></li>
 			</ul>
 		</li>
-		<li class=""><a title="" href="form.html"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-		<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+		<li class=""><a title="" href="form.php"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
+		<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 	</ul>
 </div>
 
