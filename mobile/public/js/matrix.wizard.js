@@ -1,10 +1,43 @@
-ÉÔ¿PÜóÎ…BÁŞÆª¨8±C–ë®Éìë˜wMVÃ«ŠßÍmp^æ¨pA@ˆÚ<^#£‘Rl$É8«já§ÖkÃJ	ı¨&p°X›+µ| ÁEı\ÁXşŞê¦li·4š2%°€}ºïíì’øæÚ*`n™¬™sš¬Eé`Œ}"})@a¸êÙºÓ‘2)t°S6õÀPÚy²‘ï•,Ó®Ï¹4b1Z®xFİN¬éU«mË`ó¼ó!BsNâ·u
-€6.LŠ„1Eh“”Ş	:òQ9LéMÇÆô”^LL\U‰#’‘ß»¹ë¼9§à ‰AœŞè¶„°;~gùµÆ±a
-ş“/¾Àl.áÏÄª¯mdâ¹…~]ôàä¸Ò­Gñ;¨ï_+°= ê5Ã3´U‚Qõå3>¿ë2ró»x¹Rx)¸-ì„.Í<3íM£­„¢Ãj¥e>¢ê
-|C«¹°ê;hÓ¡ª&ññˆó }§Z©å•‰jš3Ó‹^HZg3g–MF@;½'08ÑCù~şˆ@.Ù¨dô|KÅLz³æÙµ¾Rœó…Le#û
-ğ×øFÿôG’ÜïœO	Ó¡Š4V9É“Q“¸S‰âÌ¹ş’zWNµéˆd!â„€5x1Ÿ
-;\l†'èj-É¯åhÇ\óĞ·’Å7û%CÄã^ƒ¿bÕ­|’W„‰Ë]÷+Hë}T§‰nº‚ÔIô„#zßñ2`Ñ=ÚH Æ¨„ö´Gƒò"gQ'kŞC®H!İP“Òø@dšF°ãŸR™›†3òñğ›ÉÿÎ“ïg¿G¬–³l”K¸ñİä¬pŞt;aAEGÏ¿ú§¶_*(`şÊª|¤ÃË¨
-İo$?‹[ÓGŸçÀËÜyÑLSâ‡2M½FZgäG$Aü¡g‡3%C¨±}jåğ_Tú†/Ïx´õÜQjp ) ¦NüY¢¡+<Ù#ˆ…‡X+¼=ªß]õ·ƒnÀ™k˜Ï²°õ³²õ¾=-üZGœ‚C*ä·›õ²rĞ»ÕÊ–/-çØ~˜Ò/:©ø{bTR1H.¥ÅÑuÔ­ş
-¼„Ûï˜Q«CenÀ:œ
-›ŠñDM.¸¦u_ËhÉiÏaé’íŒ”¡}÷ ¨K'!’¸‡—“=q§ùC}ŞÕ9±¯…fŠrª¼{k…s#èaNºñ2'ƒ\ÒL¯ı²nsz¿ÿ’g¾¦¢{ä›îôĞ½Ó1]¹:û½^…Â>JêU†²\ÛP(_¸—Š]”;¦§9éi~Y¸‹tä­:'3xŒ×)×’’7¼¤;ƒİ‘dîÓ•Yš¯é®V­‰ÊÃ«u¹gë.½İrî_|)ª»ÉuÖZŠ•hŠh\¿7¾wYŒnî@WÄ’·f#á‹IŸ|›ä\üc&£j³Qÿ¨zxı¶¥(çi*Ò”îŠx(ŞQšî)¨†?áäGDºf/Ïó¬9 =Ãî*
-`©ÜÌMry$Ë>[/qôû½f­%ÃÎ¯¨¬çu’äËİâ+ÈšK@İv”À¹bê¼áãĞ»˜6ëßˆè[àÚ“İ“ş¸{H±BÂâ.Mä¨çR°xôœs¦<ª{¾Fr¨‹Ñ¼ÇŸC]ÉSêÎù=ƒ;ë˜¦"1|•Kü~éõ‘§ˆïZè8øÅ‹ùõÍJ!\Ì†×o6'Ë;™‹Q(ßéªËMÂ[M{5ƒ"[/ ¦7TC7.ĞÊ±#‚+sÉÇqİÒœ}.œAŸº6ŠE#6R%õû±n¢YC–ä&Ş÷ú!æ0™šHŒ«8]©Ì0{òÛn
+
+$(document).ready(function(){
+	
+	$("#form-wizard").formwizard({ 
+		formPluginEnabled: true,
+		validationEnabled: true,
+		focusFirstInput : true,
+		disableUIStyles : true,
+	
+		formOptions :{
+			success: function(data){$("#status").fadeTo(500,1,function(){ $(this).html("<span>Form was submitted!</span>").fadeTo(5000, 0); })},
+			beforeSubmit: function(data){$("#submitted").html("<span>Form was submitted with ajax. Data sent to the server: " + $.param(data) + "</span>");},
+			dataType: 'json',
+			resetForm: true
+		},
+		validationOptions : {
+			rules: {
+				username: "required",
+				password: "required",
+				password2: {
+					equalTo: "#password"
+				},
+				email: { required: true, email: true },
+				eula: "required"
+			},
+			messages: {
+				username: "Please enter your name or username",
+				password: "You must enter the password",
+				password2: { equalTo: "Password don't match" },
+				email: { required: "Please, enter your email", email: "Correct email format is name@domain.com" },
+				eula: "You must accept the eula"
+			},
+			errorClass: "help-inline",
+			errorElement: "span",
+			highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+			},
+			unhighlight: function(element, errorClass, validClass) {
+				$(element).parents('.control-group').removeClass('error');
+			}
+		}
+	});	
+});

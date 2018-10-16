@@ -1,11 +1,8 @@
 
 <?php 
-session_start();
+session_start();s
 require "config.php";
 require "db.php";
-if(!isset($_SESSION['user'])){
-	header("location:login.php");
-}
 $db = new Db;
 $id = $_GET['id'];
 $product = $db->detail($id);
@@ -57,7 +54,7 @@ $product = $db->detail($id);
 					<li class="divider"></li>
 					<li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 					<li class="divider"></li>
-					<li><a href="login.php"><i class="icon-key"></i> Log Out</a></li>
+					<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
 				</ul>
 			</li>
 			<li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -72,7 +69,7 @@ $product = $db->detail($id);
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -131,7 +128,7 @@ $product = $db->detail($id);
 								</thead>
 								<tbody>
 									<tr class="">
-										<td><img style=" height: 200px; width: 300px; float: left;" src='public/images/<?php echo $product[0]['image']; ?>' ></td>
+										<td><img style=" height: auto; width: auto; float: left;" src='public/images/<?php echo $product[0]['image']; ?>' ></td>
 										<td><h5><?php echo $product[0]['name']; ?></h5></td>
 										<td><?php echo $product[0]['type_name']; ?></td>
 										<td><?php echo $product[0]['manu_name']; ?></td>

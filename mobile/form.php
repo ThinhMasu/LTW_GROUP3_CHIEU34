@@ -148,7 +148,7 @@ if(!isset($_SESSION['user'])){
 										</div>
 
 										<div class="form-actions">
-											<button type="submit" class="btn btn-success">Add</button>
+											<button type="submit" class="submit">Add</button>
 										</div>
 									</div>
 

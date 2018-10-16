@@ -1,24 +1,27 @@
-
 <?php 
 session_start();
 require "config.php";
 require "db.php";
-if(!isset($_SESSION['user'])){
-	header("location:login.php");
-}
-$per_page = 5;
-if (isset($_GET['page'])) {
-	$page = $_GET['page'];
-}
-else
-{
-	$page = 1;
-}
+require "user.php";
+if (!isset($_SESSION['user'])) {
+	 header('Location: login.php');
 
+}
 $db = new Db;
-$total = $db->count1();
-$url = $_SERVER['PHP_SELF'];
-$product1 = $db->product1($page, $per_page);
+if(isset($_GET['page']))
+	{
+		$page=$_GET['page'];
+	}else{
+		$page =1;
+	}
+
+$per_page=5;
+$total_row=25;
+
+$base_url=$_SERVER['PHP_SELF'];
+
+$listproduct1=$db->listProduct($page,$per_page);
+$phantrang=$db->phantrang($base_url,$total_row,$page,$per_page);
 ?>
 
 
@@ -83,7 +86,7 @@ $product1 = $db->product1($page, $per_page);
 				</ul>
 			</li>
 			<li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-			<li class=""><a title="" href="login.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+			<li class=""><a title="" href="logout.php"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 		</ul>
 	</div>
 
@@ -121,14 +124,14 @@ $product1 = $db->product1($page, $per_page);
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="widget-box">
-						<div class="widget-title"> <span class="icon"><a href="form.php"> <i class="icon-plus"></i> </a></span>
+						<div class="widget-title"> <span class="icon"><a href="form.html"> <i class="icon-plus"></i> </a></span>
 							<h5>Products</h5>
 						</div>
 						<div class="widget-content nopadding">
 							<table class="table table-bordered table-striped">
 								<thead>
 									<?php
-									foreach($product1 as $value){
+									foreach($listproduct1 as $value){
 										?>										
 										<tr>
 											<th></th>
@@ -142,15 +145,15 @@ $product1 = $db->product1($page, $per_page);
 									</thead>
 									<tbody>
 										<tr class="">
-											<td><img style=" height: 200px; width: 300px; float: left;" src='public/images/<?php echo $value['image']; ?>' ></td>
+											<td><img style=" height: auto; width: auto; float: left;" src='public/images/<?php echo $value['image']; ?>' ></td>
 											<td><h5><a style="color: blue;" href='detail.php?id=<?php echo $value['ID'] ?>'><?php echo $value['name']; ?></a></h5></td>
 											<td><?php echo $value['type_name']; ?></td>
 											<td><?php echo $value['manu_name']; ?></td>
 											<td><p><?php echo $value['description']; ?></p></td>
 											<td><b>Giá: </b> <span class='gia'><?php echo $value['price']; ?></span><br></td>
 											<td>
-												<a href="form.html" class="btn btn-success btn-mini">Edit</a>
-												<a href="delete.php?id=<?php echo $value['ID'] ?>" class="btn btn-danger btn-mini">Delete</a>
+												<a href="formEdit.php?id=<?php echo $value['ID'] ?>" class="btn btn-success btn-mini">Edit</a>
+												<a href="delete.php?id=<?php echo $value['ID']?>" class="btn btn-danger btn-mini">Delete</a>
 											</td>
 										</tr>
 										<?php
@@ -158,11 +161,9 @@ $product1 = $db->product1($page, $per_page);
 									?>
 								</tbody>
 							</table>
-							<ul>
-								<?php 
-								echo $db->paginate($url, $total, $page, $per_page);  ?>
+							<ul class="pagination">
+									<?php echo $phantrang;?>
 							</ul>
-							
 
 						</div>
 					</div>

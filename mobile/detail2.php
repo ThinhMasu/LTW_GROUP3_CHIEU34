@@ -115,7 +115,6 @@ $product1 = $db->search1();
 							<table class="table table-bordered table-striped">
 								<thead>
 									<?php
-
 									foreach($product1 as $value){		
 										?>
 										<th></th>

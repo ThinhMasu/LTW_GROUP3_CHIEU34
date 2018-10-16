@@ -18,19 +18,8 @@ class Db{
 		return $arr;
 	}
 	//Viet ham lay ra tên và giá sản phẩm của hãng “Apple”	
-	public function product1($page, $per_page){
-		//Viet cau SQL
-		//cau 1:
-		$first_link = ($page - 1) * $per_page; 
-
-		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` ORDER BY `ID` DESC LIMIT $first_link, $per_page"; 
-
-
-		$result = self::$conn->query($sql);        
-
-		return $this->getData($result);    
-	}
-
+	
+	
 	//Viet ham lay ra chi tiet san pham theo ID
 	public function detail($id){
 		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` AND `ID`= $id";
@@ -42,9 +31,8 @@ class Db{
 		$result = self::$conn->query($sql);
 		return $result;
 	}
-	public function search($key, $page, $per_page){
-		$first_link = ($page - 1) * $per_page; 
-		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` AND `name` LIKE '%".$key."%'  ORDER BY `ID` DESC LIMIT $first_link, $per_page";
+	public function search($key){
+		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` AND `name`LIKE '%".$key."%'";
 		$result = self::$conn->query($sql);
 		return $this->getData($result);
 	}
@@ -52,124 +40,71 @@ class Db{
 		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` ORDER BY `ID` DESC LIMIT 1";
 		$result = self::$conn->query($sql);
 		return $this->getData($result);
-
 	}
+	public function listProduct($page,$per_page){
+		
 
-	public function count1(){
-		$sql = "SELECT * FROM `products`";
+		$first_link=($page-1)*$per_page;
+		$sql="SELECT * FROM `products`,`manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID`  LIMIT $first_link,$per_page";
+		$kq = self::$conn->query($sql);
+		return $this->getData($kq);
+	}
+	public function phanTrang($base_url,$total_row,$page,$per_page){
+		$total_link=($total_row/$per_page);
+		$link="";
+		for ($i=1; $i <= $total_link ; $i++) { 
+			$link=$link."<li><a href='$base_url?page=$i'>$i</a></li>";
+		}
+		return $link;
+	}
+	public function login(){
+		$sql="SELECT * FROM user";
+		//Thuc thi cau truy van
 		$result = self::$conn->query($sql);
-		return $result->num_rows;
+		return $this->getData($result);
 	}
-
-	public function count2($key){
-		$sql = "SELECT * FROM `products`, `manufactures`,`protypes` WHERE `products`.`manu_ID`= `manufactures`.`manu_ID` AND `products`.`type_ID`= `protypes`.`type_ID` AND `name`LIKE '%".$key."%'";
-		$result = self::$conn->query($sql);
-		return $result->num_rows;
-	}
-
-
-	public function paginate($url, $total, $page, $per_page)
-	{
-		if($total <= 0) {
-			return "";
-		}
-		$total_links = ceil($total/$per_page);
-		if($total_links <= 1) {
-			return "";
-		}
-
-		$first_link = ""; $prev_link =""; $last_link=""; $next_link=""; 
-
-		if ($page > 1) { 
-
-
-			$first_link = "<a href='$url'> << </a>"; 
-
-
-			$prev = $page - 1; 
-
-
-			$prev_link = "<a href='$url?page=$prev'> < </a>"; 
-
-		} 
-
-		if($page < $total_links) { 
-
-
-			$last_link = "<a href='$url?page=$total_links'> 
-			>> </a>"; 
-			$next = $page + 1;
-			$next_link = "<a href ='$url?page=$next'> 
-			> </a>";
-
-		}
-		return $first_link.$prev_link.$next_link.$last_link;
-	} 
-
-	public function paginate1($key, $url, $total, $page, $per_page)
-	{
-		if($total <= 0) {
-			return "";
-		}
-		$total_links = ceil($total/$per_page);
-		if($total_links <= 1) {
-			return "";
-		}
-
-		$first_link = ""; $prev_link =""; $last_link=""; $next_link=""; 
-
-		if ($page > 1) { 
-
-
-			$first_link = "<a href='$url?key=".$key."$page='> << </a>"; 
-
-
-			$prev = $page - 1; 
-
-
-			$prev_link = "<a href='$url?key=".$key."&page=$prev'> < </a>"; 
-
-		} 
-
-		if($page < $total_links) { 
-
-
-			$last_link = "<a href='$url?key=".$key."&page=$total_links'> 
-			>> </a>"; 
-			$next = $page + 1;
-			$next_link = "<a href ='$url?key=".$key."&page=$next'> 
-			> </a>";
-
-		}
-		return $first_link.$prev_link.$next_link.$last_link;
-	}
-
 	public function AddCart($name, $type_ID, $manu_ID, $img, $description, $price)
 	{
 		$sql = "INSERT INTO `products`(`name`, `type_ID`, `manu_ID`, `image`, `description`, `price`) VALUES ('".$name."', '".$type_ID."', '".$manu_ID."', '".$img."', '".$description."', '".$price."')";
 		self::$conn->query($sql);
 	}
-
-	public function checkImg()
-	{
-		$tagetDir = "public/images/";		
-		$tagetFile = $tagetDir.basename($_FILES["fileUpload"]["name"]);	
-		move_uploaded_file($_FILES['fileUpload']['tmp_name'], $tagetFile);	
-		$upLoadOk = 1;
-		$imgFileType = pathinfo($tagetFile, PATHINFO_EXTENSION);
-		if(isset($_POST["submit"]))
-		{
-			$check = getimagesize(($_FILES["fileToUpload"]["tmp_name"]));
-			if($check != false)
-			{
-				echo "File in an image - ".$check["mime"].".";
-				$upLoadOk = 1;
-			}
-			else{
-				echo "File in an image.";
-				$upLoadOk = 0;
-			}
-		}	
+	public function getAllProtype(){
+		$sql="SELECT * FROM  `protypes`";
+		$result = self::$conn->query($sql);
+		$arr = array();
+		while($row = $result->fetch_assoc()){
+			$arr[] = $row;
+		}
+		return $arr;
 	}
+	
+	public function editProduct($name, $manu_ID, $price, $image, $desc,$id){
+			if ($image == "")
+			{
+				$sql ="UPDATE `products` SET `name`='".$name."',`price`='".$price."',`description`='".$desc."',`manu_ID`='".$manu_ID."' WHERE `ID` = ".$id."'";
+			}
+			else
+			{
+				$sql ="UPDATE `products` SET `name`='".$name."',`price`='".$price."',`image`='".$image."',`description`='".$desc."',`manu_ID`='".$manu_ID."' WHERE `ID` = ".$id."'";
+			}
+			var_dump( $sql);
+		$result = self::$conn->query($sql);
+		return $result;
+		}
+
+	public function getProtypeByID($id){
+		$sql="SELECT * FROM `products`, `protypes`, `manufactures` WHERE `products`.`manu_ID` = `manufactures`.`manu_ID`  AND `products`.`type_ID`= `protypes`.`type_ID` AND  `protypes`.`type_ID`= $id";
+		$result = self::$conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+		}
+
+	public function getProductByID($id){
+		$sql="SELECT * FROM products WHERE id = $id";
+		$result = self::$conn->query($sql);
+		$row = $result->fetch_assoc();
+		return $row;
+		}
 
 }
+
